@@ -1,54 +1,89 @@
 package com.capgemini.onlineexammanegmentsystem.entity;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-/************************************************************************************
- *          @author      :    Princy Pandey
- *          Description  :    It is an Entity class which is used to generate Users Table into the database and
- *          				  stored all the user details & related information.	   
- *          Version      :    
- *          Created Date :    19-SEPT-2020
- ************************************************************************************/
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
-@Table(name="Users")
-public class User{
+@Table(name = "USER_Tab")
+@Inheritance(strategy=InheritanceType.JOINED) 
+@DynamicUpdate
+@DynamicInsert
+public class User implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@Column(name = "user_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-	@SequenceGenerator(sequenceName = "user_seq", allocationSize = 1, name = "user_seq")
-	private Long userId;
+	@Column(name = "User_Id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long userId;
 	
-	@Column(length = 512)
+	@Column(name = "User_name")
 	private String userName;
 	
-	@Column(length = 512)
+	@Column(name = "IS_Admin")
+	private boolean isAdmin;
+	
+	@Column(name = "Password")
 	private String userPassword;
 	
-	private Boolean isAdmin;
-
+	@Column(name = "Email_Id")
+	private String emailId;
+	
+	@Column(name = "IsActiveTest")
+	private boolean isActiveTest = false;
+	
+	
+	@OneToMany(mappedBy = "user")
+	@JsonBackReference
+	@JsonIgnore
+	private Set<User_Test> userTest = new HashSet<>();
+	
+	
 	public User() {
-		super();
+		
+	}
+	
+	
+	
+
+	public boolean isActiveTest() {
+		return isActiveTest;
 	}
 
-	public User(String userName, String userPassword, Boolean isAdmin) {
-		super();
-		this.userName = userName;
-		this.userPassword = userPassword;
-		this.isAdmin = isAdmin;
+
+
+
+	public void setActiveTest(boolean isActiveTest) {
+		this.isActiveTest = isActiveTest;
 	}
 
-	public Long getUserId() {
+
+
+
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 
@@ -60,6 +95,14 @@ public class User{
 		this.userName = userName;
 	}
 
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
 	public String getUserPassword() {
 		return userPassword;
 	}
@@ -68,11 +111,15 @@ public class User{
 		this.userPassword = userPassword;
 	}
 
-	public Boolean getIsAdmin() {
-		return isAdmin;
+	public String getEmailId() {
+		return emailId;
 	}
 
-	public void setIsAdmin(Boolean isAdmin) {
-		this.isAdmin = isAdmin;
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
+	
+
+	
+
 }
