@@ -1,0 +1,238 @@
+
+<head>
+    <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    input[type=text], select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    
+    label {
+      padding: 12px 12px 12px 0;
+      display: inline-block;
+    }
+    
+    input[type=submit] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      float: right;
+    }
+    
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+    
+    .container {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    
+    .col-25 {
+      float: left;
+      width: 25%;
+      margin-top: 6px;
+    }
+    
+    .col-75 {
+      float: left;
+      width: 75%;
+      margin-top: 6px;
+    }
+    
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    
+    /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+      .col-25, .col-75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+      }
+    }
+    input[type=button], input[type=submit], input[type=reset] {
+  background-color:blue;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.bg-img {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+
+.btn1{
+    border-color: #2196F3;
+  color: dodgerblue
+}
+/* .btn1:hover {
+    opacity:.8;
+    border: 1px solid;
+    border-color: white;
+    background-color: white;
+    color: mediumturquoise;
+} */
+
+.btn1:hover {
+  background: #2196F3;
+  color: white;
+}
+    </style>
+    </head>
+    
+<!-- Adding Question, Options and  selecting a Category-->
+<div class="bg-img">
+    <h3 style="text-align: center;font-size: 40px;">Add Question</h3>
+    
+    <br/>
+    
+    <!-- Form creation for adding a new question-->
+    <form [formGroup]="addQueForm">
+
+        <!-- Question Title -->
+        <div class="form-group row ">
+            <label for="questionTitle" class="col-lg-4 text-right font-weight-bold">
+                Question :
+            </label>
+            <div class="col-lg-4 col-md-4">
+                <input type="text" class="form-control " placeholder="Title" formControlName="questionTitle" />
+
+                <!-- validations for question title-->
+                <div *ngIf="submitted && addQueForm.controls.questionTitle.errors">
+                    <div class="text-danger" *ngIf="addQueForm.controls.questionTitle.errors.required">
+                        Question is required ..!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Answer-->
+        <div class="form-group row">
+            <label for="questionAnswer" class="col-lg-4 text-right font-weight-bold">
+                Correct Option :
+            </label>
+            <div class="col-lg-4 col-md-4">
+                <input type="number" class="form-control" placeholder="Answer"
+                    formControlName="questionAnswer" />
+
+                <!-- validations for question answer-->
+                <div *ngIf="submitted && addQueForm.controls.questionAnswer.errors">
+                    <div class="text-danger" *ngIf="addQueForm.controls.questionAnswer.errors.required">
+                        Answer is required ..!
+                    </div>
+                    <div class="text-danger"
+                        *ngIf="addQueForm.controls.questionAnswer.errors.min || addQueForm.controls.questionAnswer.errors.max">
+                        Option must be between 1 and 4 ..!
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Question marks -->
+        <div class="form-group row">
+            <label for="questionMarks" class="col-lg-4 text-right font-weight-bold">
+                Marks :
+            </label>
+            <div class="col-lg-4 col-md-4">
+                <input type="number" class="form-control" placeholder="marks" formControlName="questionMarks" />
+
+                <!-- Validations for Question marks-->
+                <div *ngIf="submitted && addQueForm.controls.questionMarks.errors">
+                    <div class="text-danger" *ngIf="addQueForm.controls.questionMarks.errors.required">
+                        Marks is required ..!
+                    </div>
+                    <div class="text-danger" *ngIf="addQueForm.controls.questionMarks.errors.min">
+                        Marks cant be negative..!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- end of Question form-->
+    <br />
+
+    <!-- Adding options for the question-->
+    <!-- option 1-->
+    <div class="row">
+        <label for="option1" class="col-lg-4 text-right font-weight-bold">
+            Option 1 :
+        </label>
+        <div class="col-lg-4 col-md-4">
+            <input type="text" class="form-control" placeholder="option 1" [(ngModel)]="option1" />
+        </div>
+    </div>
+    <br />
+
+     <!-- option 2-->
+    <div class="row">
+        <label for="option2" class="col-lg-4 text-right font-weight-bold">
+            Option 2 :
+        </label>
+        <div class="col-lg-4 col-md-4">
+            <input type="text" class="form-control" placeholder="option 2" [(ngModel)]="option2" />
+        </div>
+    </div>
+    <br />
+
+     <!-- option 3-->
+    <div class="row">
+        <label for="option3" class="col-lg-4 text-right font-weight-bold">
+            Option 3 :
+        </label>
+        <div class="col-lg-4 col-md-4">
+            <input type="text" class="form-control" placeholder="option 3" [(ngModel)]="option3" />
+        </div>
+    </div>
+    <br />
+
+     <!-- option 4-->
+    <div class="row">
+        <label for="option4" class="col-lg-4 text-right font-weight-bold">
+            Option 4 :
+        </label>
+        <div class="col-lg-4 col-md-4">
+            <input type="text" class="form-control" placeholder="option 4" [(ngModel)]="option4" />
+            <div *ngIf="option">
+                <div class="text-danger">
+                    All options are required ..!
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    
+
+    
+    <br />
+    <div class="offset-lg-2 col-lg-6 col-md-6 text-right">
+        <button class="btn1" (click)="addQuestion()">Add</button> &nbsp; &nbsp;
+        <button class="btn1"mat-raised-button color="primary" routerLink="/viewAll">Go Back</button>
+        <!-- <a class="btn btn-outline-danger" routerLink="viewAll">Cancel</a> -->
+    </div>
+    <br /><br />
+</div>
+
+
+
+
